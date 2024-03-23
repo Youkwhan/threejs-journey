@@ -18,11 +18,11 @@ mesh.position.z = 1;
 scene.add(mesh);
 
 // The position property is not an object, but an instance of the Vector3 class.
-// length of a vector
+// length of a vector (distance from the center 0,0)
 console.log(mesh.position.length());
 //Normazlie vector values (meaning you will reduce the length of the vector to 1 unit, but preserve its direction)
 console.log(mesh.position.normalize());
-// To change the values
+// To change the vector3 values
 mesh.position.set(0.7, -0.6, 1);
 
 /**
