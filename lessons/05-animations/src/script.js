@@ -62,6 +62,7 @@ function tick() {
 tick();
 */
 
+// GreenSock has its own tick, meaning interally the library is doing requestAnimationFrame on its OWN!, so we don't have to tell GreenSock to update itself.
 gsap.to(mesh.position, { duation: 1, delay: 1, x: 2 });
 gsap.to(mesh.position, { duation: 1, delay: 2, x: 0 });
 
