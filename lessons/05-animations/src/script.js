@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import gsap from 'gsap';
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -61,6 +62,9 @@ function tick() {
 tick();
 */
 
+gsap.to(mesh.position, { duation: 1, delay: 1, x: 2 });
+gsap.to(mesh.position, { duation: 1, delay: 2, x: 0 });
+
 // 2. Clock, alternative to deltaTime Date.now()
 const clock = new THREE.Clock();
 function tick() {
@@ -88,3 +92,8 @@ function tick() {
 }
 
 tick();
+
+/* == Using a Library ==
+Gives us more control over the animation, create tweens (transition from A to B easing-in-out), create timelines (tweens with delay), etc.
+We can us a library called `GSAP`: npm install --save gsap
+*/
