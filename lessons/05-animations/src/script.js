@@ -72,12 +72,14 @@ function tick() {
   //mesh.rotation.y = elapsedTime * Math.PI * 2;
 
   // cube moves in a circle
-  // mesh.position.y = Math.sin(elapsedTime); // starts at 0
-  // mesh.position.x = Math.cos(elapsedTime); // starts at 1
+  // mesh.position.y = Math.sin(elapsedTime); // sin starts at 0
+  // mesh.position.x = Math.cos(elapsedTime); // cos starts at 1
 
   camera.position.y = Math.sin(elapsedTime);
   camera.position.x = Math.cos(elapsedTime);
   camera.lookAt(mesh.position);
+
+  // DONT USE clock.getDelta() it fucks up with our elapsedTime. Bruno says to trust
 
   // Render
   renderer.render(scene, camera);
