@@ -4,6 +4,9 @@ import * as THREE from 'three';
  * Cursor coordinates
  *
  * Instead of exact pixel values, we convert it into 0.0 to 1.0 for all screen sizes.
+ *
+ * In web browser center is top left, and +x goes right and +y goes down
+ * In Three.js the center is the located at the center and based on the right-handed system. +y goes up
  */
 const cursor = {
   x: 0,
@@ -12,7 +15,7 @@ const cursor = {
 window.addEventListener('mousemove', (event) => {
   // console.log(event.clientX)
   cursor.x = event.clientX / sizes.width - 0.5; // -0.5 to 0.5, instead of 0 to 1.
-  cursor.y = event.clientY / sizes.height - 0.5;
+  cursor.y = -(event.clientY / sizes.height - 0.5); // The y axis must be negated because the cursor.y is positive when going down while Threejs y is positive when going up.
 });
 
 /**
@@ -67,6 +70,10 @@ const tick = () => {
 
   // Update objects
   //   mesh.rotation.y = elapsedTime;
+
+  // Update camera, animate around our cursor
+  camera.position.x = cursor.x * 3;
+  camera.position.y = cursor.y * 3;
 
   // Render
   renderer.render(scene, camera);
