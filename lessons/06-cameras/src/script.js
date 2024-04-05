@@ -1,12 +1,27 @@
 import * as THREE from 'three';
 
 /**
+ * Cursor coordinates
+ *
+ * Instead of exact pixel values, we convert it into 0.0 to 1.0 for all screen sizes.
+ */
+const cursor = {
+  x: 0,
+  y: 0,
+};
+window.addEventListener('mousemove', (event) => {
+  // console.log(event.clientX)
+  cursor.x = event.clientX / sizes.width - 0.5; // -0.5 to 0.5, instead of 0 to 1.
+  cursor.y = event.clientY / sizes.height - 0.5;
+});
+
+/**
  * Base
  */
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
 
-// Sizes
+// Sizes of our canvas
 const sizes = {
   width: 800,
   height: 600,
