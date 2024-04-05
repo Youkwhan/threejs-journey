@@ -74,6 +74,9 @@ const tick = () => {
   // Update camera, animate around our cursor
   camera.position.x = cursor.x * 3;
   camera.position.y = cursor.y * 3;
+  // We are going to ask the camera to look at our cube after moving it so that we are always centered on the cube regardless of the `camera.position`
+  // camera.lookAt(new THREE.Vector3()) // default Vector3(0,0,0)
+  camera.lookAt(mesh.position); // mesh is our cube and our cube is at the center not moving ;p
 
   // Render
   renderer.render(scene, camera);
