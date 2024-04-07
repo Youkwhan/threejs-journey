@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// console.log(OrbitControls);
 /**
  * Cursor coordinates
  *
@@ -56,6 +58,19 @@ camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
+/**
+ * Orbit Controls
+ * - Instead of moving with our cursor, we get the `CONTROL` to drag around in orbit
+ */
+const controls = new OrbitControls(camera, canvas);
+// By default, the camera is looking at the center of the scene.
+// We can change the `target` property which is a Vector 3
+// controls.target.y = 2; // The camera will look at the y=1 instead of the center of the scene
+// controls.update();
+
+// Damping: The speed of the camera when we drag around. ease in and out
+controls.enableDamping = true;
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -72,12 +87,15 @@ const tick = () => {
   //   mesh.rotation.y = elapsedTime;
 
   // Update camera, animate around our cursor
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3; // (x * 2*PI for full revolutions) *3 to go farther away
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3; // to rotate around the flat plane
-  camera.position.y = cursor.y * 5;
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3; // (x * 2*PI for full revolutions) *3 to go farther away
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3; // to rotate around the flat plane
+  // camera.position.y = cursor.y * 5;
   // We are going to ask the camera to look at our cube after moving it so that we are always centered on the cube regardless of the `camera.position`
   // camera.lookAt(new THREE.Vector3()) // default Vector3(0,0,0)
-  camera.lookAt(mesh.position); // mesh is our cube and our cube is at the center not moving ;p
+  // camera.lookAt(mesh.position); // mesh is our cube and our cube is at the center not moving ;p
+
+  // Update controls
+  controls.update();
 
   // Render
   renderer.render(scene, camera);
