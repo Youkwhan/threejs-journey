@@ -1,0 +1,18 @@
+/* * {
+  margin: 0;
+  padding: 0;
+} */
+
+/* remove the extra padding */
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+/* make sure page is impossible to scroll if scroll event isnt catched by something ilke CONTROLS */
+html,
+body {
+  overflow: hidden;
+}
