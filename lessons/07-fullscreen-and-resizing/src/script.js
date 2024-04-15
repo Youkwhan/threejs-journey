@@ -38,6 +38,7 @@ window.addEventListener('resize', () => {
 
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); //  in case the user changes the window from a screen to another
 });
 
 /**
@@ -64,6 +65,8 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+// Handle pixel ratio: fix blurry render and stairs effect on the edges. It's bcz you are testing on a screen with a pixel ratio greater than 1.
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 2 pixel ratio is enough or performance issue with too much to render
 
 /**
  * Animate
