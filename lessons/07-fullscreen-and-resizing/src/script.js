@@ -41,6 +41,17 @@ window.addEventListener('resize', () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); //  in case the user changes the window from a screen to another
 });
 
+/** Handle fullscreen
+ * Add support to fulllscreen mode by dbclick for now
+ */
+window.addEventListener('dblclick', () => {
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
 /**
  * Camera
  */
