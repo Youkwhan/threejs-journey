@@ -47,6 +47,7 @@ const scene = new THREE.Scene();
  */
 
 // Object
+// Create an empty geometry
 const geometry = new THREE.BufferGeometry();
 
 // We need 50 triangles. Each triangle is composed of 3 verticies and each vertex is composed of 3 values (x,y,z)
