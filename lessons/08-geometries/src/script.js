@@ -29,8 +29,31 @@ const scene = new THREE.Scene();
  * wireframe:true, will  show the lines that delimit each triangle. (Don't put in production will see 'stairs')
  */
 
+/**
+ * BufferGeometry
+ * - A way to store multiple geometries.
+ * How to store buffer gemoetry data? Float32Array: Typed array, can only store floats, fixed length, and easier to handle for cpu.
+ *
+ */
+
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
+const geometry = new THREE.BufferGeometry();
+const positionsArray = new Float32Array([
+  0,
+  0,
+  0, // first verticies (x,y,z)
+  0,
+  1,
+  0, // sec
+  1,
+  0,
+  0, // third
+]);
+// converting Float32Array into  a BufferAttribute: how much values compose one vertex.
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3); // meaning 1 vertex contains 3 values. (UV-Cordinates uses 2 values / Size uses 1 value)
+
+geometry.setAttribute('position', positionsAttribute);
+
 const material = new THREE.MeshBasicMaterial({
   color: 0xff0000,
   wireframe: true,
