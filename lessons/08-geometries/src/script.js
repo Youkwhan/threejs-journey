@@ -38,21 +38,17 @@ const scene = new THREE.Scene();
 
 // Object
 const geometry = new THREE.BufferGeometry();
-const positionsArray = new Float32Array([
-  0,
-  0,
-  0, // first verticies (x,y,z)
-  0,
-  1,
-  0, // sec
-  1,
-  0,
-  0, // third
-]);
-// converting Float32Array into  a BufferAttribute: how much values compose one vertex.
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3); // meaning 1 vertex contains 3 values. (UV-Cordinates uses 2 values / Size uses 1 value)
 
-geometry.setAttribute('position', positionsAttribute);
+// We need 50 triangles. Each triangle is composed of 3 verticies and each vertex is composed of 3 values (x,y,z)
+const count = 50;
+const positionsArray = new Float32Array(count * 3 * 3);
+for (let i = 0; i < count * 3 * 3; i++) {
+  // remember -0.5 to center it bcz 0 to 1 vs -0.5 to 0.5
+  positionsArray[i] = (Math.random() - 0.5) * 4;
+}
+
+const positionsAtrribute = new THREE.BufferAttribute(positionsArray, 3);
+geometry.setAttribute('position', positionsAtrribute);
 
 const material = new THREE.MeshBasicMaterial({
   color: 0xff0000,
