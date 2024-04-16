@@ -36,6 +36,16 @@ const scene = new THREE.Scene();
  *
  */
 
+/**
+ * Index: BufferAttribute
+ *
+ * Some geomtry/triangles have faces that share common vertices
+ *
+ * When creating a BufferGeometry we can specify a  bunch of vertices and then the indeices to create the faces and re-use vertices multiple times
+ *
+ * Less data to send to gpu for performances, but more complex to sort the data.
+ */
+
 // Object
 const geometry = new THREE.BufferGeometry();
 
