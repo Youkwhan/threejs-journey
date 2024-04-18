@@ -20,6 +20,7 @@ import GUI from 'lil-gui';
  * - The property of that object you want to change.
  * */
 const gui = new GUI();
+const debugObject = {};
 
 /**
  * Base
@@ -33,14 +34,38 @@ const scene = new THREE.Scene();
 /**
  * Object
  */
+debugObject.color = '#3a63a6';
+
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
-const material = new THREE.MeshBasicMaterial({ color: '#ff0000' });
+const material = new THREE.MeshBasicMaterial({
+  color: debugObject.color,
+  wireframe: false,
+});
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
+// DEBUG UI, elevation 'y' property of the mesh
 // [object][property]  == [mesh.position][.y]
 //gui.add(mesh.position, 'y', -3, 3, 0.01); // min, max, step
 gui.add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation');
+
+// DEBUG UI, checkbox to toggle visibility of the mesh
+gui.add(mesh, 'visible');
+
+// DEBUG UI, wireframe property of the material
+gui.add(material, 'wireframe');
+
+// DEBUG UI, color proptery of the material
+// color is an object, an instance of the THREE.js Color class.
+gui.addColor(debugObject, 'color').onChange(() => {
+  material.color.set(debugObject.color);
+});
+
+// Debug UI, function that can toggle rotation
+debugObject.spin = () => {
+  gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
+};
+gui.add(debugObject, 'spin');
 
 /**
  * Sizes
