@@ -18,8 +18,22 @@ import GUI from 'lil-gui';
  * Most tweaks can be added with gui.add(_,_)
  * - The object
  * - The property of that object you want to change.
+ *
+ * Doc - lil-gui.georgealways.com
  * */
-const gui = new GUI();
+const gui = new GUI({
+  width: 340,
+  title: 'Nice debug UI',
+  closeFolders: false,
+});
+// gui.close();
+gui.hide();
+
+window.addEventListener('keydown', (event) => {
+  if (event.key == 'h') {
+    gui.show(gui._hidden);
+  }
+});
 const debugObject = {};
 
 /**
