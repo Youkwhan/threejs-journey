@@ -44,20 +44,25 @@ const material = new THREE.MeshBasicMaterial({
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
+// DEBUG UI, CREATING FOLDERS/TABS
+const cubeTweaks = gui.addFolder('Awesome cube');
+cubeTweaks.close();
+// You can nest folders
+
 // DEBUG UI, elevation 'y' property of the mesh
 // [object][property]  == [mesh.position][.y]
 //gui.add(mesh.position, 'y', -3, 3, 0.01); // min, max, step
-gui.add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation');
+cubeTweaks.add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation');
 
 // DEBUG UI, checkbox to toggle visibility of the mesh
-gui.add(mesh, 'visible');
+cubeTweaks.add(mesh, 'visible');
 
 // DEBUG UI, wireframe property of the material
-gui.add(material, 'wireframe');
+cubeTweaks.add(material, 'wireframe');
 
 // DEBUG UI, color proptery of the material
 // color is an object, an instance of the THREE.js Color class.
-gui.addColor(debugObject, 'color').onChange(() => {
+cubeTweaks.addColor(debugObject, 'color').onChange(() => {
   material.color.set(debugObject.color);
 });
 
@@ -65,11 +70,11 @@ gui.addColor(debugObject, 'color').onChange(() => {
 debugObject.spin = () => {
   gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
 };
-gui.add(debugObject, 'spin');
+cubeTweaks.add(debugObject, 'spin');
 
 // Tweaking the Geometry, aka the subdivisions
 debugObject.subdivision = 2;
-gui
+cubeTweaks
   .add(debugObject, 'subdivision')
   .min(1)
   .max(20)
