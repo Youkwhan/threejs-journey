@@ -4,15 +4,21 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 /**
  * Textures
  */
-const image = new Image();
-const texture = new THREE.Texture(image);
-texture.colorSpace = THREE.SRGBColorSpace; // encoded in sRGB
+const textureLoader = new THREE.TextureLoader();
+// PARAMETERS: path, load (when the image loaded successfully), progress (when the loading is  progressing), error (if something went wrong).
+const texture = textureLoader.load(
+  '/textures/door/color.jpg',
+  () => {
+    console.log(load);
+  },
+  () => {
+    // dont recommend using progress
+    console.log(progress);
+  },
+  (error) => console.log(error)
+);
 
-image.onload = () => {
-  texture.needsUpdate = true; // hey image needs to be updated
-};
-
-image.src = '/textures/door/color.jpg';
+texture.colorSpace = THREE.SRGBColorSpace; // for better color representation encode in sRGB.
 
 /**
  * Base
