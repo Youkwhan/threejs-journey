@@ -33,7 +33,7 @@ const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
 const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
 /**
- * UV unwrapping
+ * UV UNWRAPPING
  *
  * The texture is being stretched or squeezed in different ways to cover the  geometry.
  *
@@ -48,6 +48,39 @@ const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
  */
 
 /**
+ * TRANSFORMING TEXTURE
+ *
+ * 1. Repeat: The texture is repeated over the geometry.
+ * 2. Wrap: The texture is wrapped over the geometry.
+ * 3. Mirror: The texture is mirrored over the geometry.
+ * 4. Offset: The texture is offset over the geometry.
+ * 5. Rotation: The texture is rotated over the geometry.
+ * 6. Center: The texture is centered over the geometry.
+ * 7. Transform: The texture is transformed over the geometry.
+ * 8. Scale: The texture is scaled over the geometry.
+ * 9. Flip: The texture is flipped over the geometry.
+ */
+
+// Testing on the colorTexture
+// Repeat property is a Vector2 with x and y properties
+// By default, the texture doesn't repeat and the LAST PIXEL get stretched! (MAY WANT THIS ;))
+colorTexture.repeat.x = 2;
+colorTexture.repeat.y = 3;
+
+// We can fix that by adding THREE.RepeatWrapping on wrapS and wrapT properties
+colorTexture.wrapS = THREE.RepeatWrapping;
+colorTexture.wrapT = THREE.RepeatWrapping;
+
+colorTexture.offset.x = 0.5;
+colorTexture.offset.y = 0.5;
+
+// rotating in 2d space (not Vector). At (0,0) UV coordinates
+colorTexture.rotation = Math.PI * 0.25;
+// Move pivot point from bottom-left to the center
+colorTexture.center.x = 0.5;
+colorTexture.center.y = 0.5;
+
+/**
  * Base
  */
 // Canvas
@@ -59,13 +92,13 @@ const scene = new THREE.Scene();
 /**
  * Object
  */
-// const geometry = new THREE.BoxGeometry(1, 1, 1);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
 // // Or
 // const geometry = new THREE.SphereGeometry(1, 32, 32);
 // // Or
-const geometry = new THREE.ConeGeometry(1, 1, 32);
-// // Or
-// const geometry = new THREE.TorusGeometry(1, 0.35, 32, 100)
+// const geometry = new THREE.ConeGeometry(1, 1, 32);
+// Or
+// const geometry = new THREE.TorusGeometry(1, 0.35, 32, 100);
 const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
