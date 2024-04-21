@@ -33,6 +33,21 @@ const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
 const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
 /**
+ * UV unwrapping
+ *
+ * The texture is being stretched or squeezed in different ways to cover the  geometry.
+ *
+ * This is  called UV unwrapping and it's like unwrapping an origami or a candy wrap to make it flat.
+ *
+ * Each vertex will have a 2D coordinate on a flat place (usually a square).
+ *
+ * IT'S LIKE UNWRAPPING A 3D object flat onto a piece of PAPER!!!
+ *
+ * SUMMARY:
+ * The Texture gets placed on the geometry in a very specific way (coordinates) because there are UV coordinates set for each vertex.
+ */
+
+/**
  * Base
  */
 // Canvas
@@ -44,7 +59,13 @@ const scene = new THREE.Scene();
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+// const geometry = new THREE.BoxGeometry(1, 1, 1);
+// // Or
+// const geometry = new THREE.SphereGeometry(1, 32, 32);
+// // Or
+const geometry = new THREE.ConeGeometry(1, 1, 32);
+// // Or
+// const geometry = new THREE.TorusGeometry(1, 0.35, 32, 100)
 const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
