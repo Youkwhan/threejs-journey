@@ -125,6 +125,40 @@ colorTexture.minFilter = THREE.NearestFilter;
 colorTexture.magFilter = THREE.NearestFilter;
 
 /**
+ * TEXTURE FORMAT and OPTIMIZATION
+ * 
+ * When you are preparing your textures, you must keep 3 crucial elements in mind:
+  1.  The weight
+  2.  The size (or the resolution)
+  3.  The data
+
+ * The weight
+  Don't forget that the users going to your website will have to download those textures. You can use most of the types of images we use on the web like .jpg (lossy compression but usually lighter) or .png (lossless compression but usually heavier).
+
+  Try to apply the usual methods to get an acceptable image but as light as possible. You can use compression websites like TinyPNG (also works with jpg) or any software.
+
+  * The size
+  Each pixel of the textures you are using will have to be stored on the GPU regardless of the image's weight. And like your hard drive, the GPU has storage limitations. It's even worse because the automatically generated mipmapping increases the number of pixels that have to be stored.
+
+  Try to reduce the size of your images as much as possible.
+
+  If you remember what we said about the mipmapping, Three.js will produce a half smaller version of the texture repeatedly until it gets a 1x1 texture. Because of that, your texture width and height must be a power of 2. That is mandatory so that Three.js can divide the size of the texture by 2.
+
+  Some examples: 512x512, 1024x1024 or 512x2048
+
+  512, 1024 and 2048 can be divided by 2 until it reaches 1.
+
+  If you are using a texture with a width or height different than a power of 2 value, Three.js will try to stretch it to the closest power of 2 number, which can have visually poor results, and you'll also get a warning in the console.
+
+  * The data
+  We haven't tested it yet, because we have other things to see first, but textures support transparency. As you may know, jpg files don't have an alpha channel, so you might prefer using a png.
+
+  Or you can use an alpha map, as we will see in a future lesson.
+
+  If you are using a normal texture (the purple one), you will probably want to have the exact values for each pixel's red, green, and blue channels, or you might end up with visual glitches. For that, you'll need to use a png because its lossless compression will preserve the values.
+ */
+
+/**
  * Base
  */
 // Canvas
