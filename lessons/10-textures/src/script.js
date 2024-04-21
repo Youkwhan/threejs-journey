@@ -21,7 +21,7 @@ loadingManager.onError = () => {
 
 const textureLoader = new THREE.TextureLoader(loadingManager);
 // textureLoader.load(PARAMETERS): path, load (when the image loaded successfully), progress (when the loading is  progressing/ not recommended to use), error (if something went wrong).
-const colorTexture = textureLoader.load('/textures/door/color.jpg');
+const colorTexture = textureLoader.load('/textures/minecraft.png');
 colorTexture.colorSpace = THREE.SRGBColorSpace; // for better color representation encode in sRGB.
 const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
 const heightTexture = textureLoader.load('/textures/door/height.jpg');
@@ -64,21 +64,65 @@ const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 // Testing on the colorTexture
 // Repeat property is a Vector2 with x and y properties
 // By default, the texture doesn't repeat and the LAST PIXEL get stretched! (MAY WANT THIS ;))
-colorTexture.repeat.x = 2;
-colorTexture.repeat.y = 3;
+// colorTexture.repeat.x = 2;
+// colorTexture.repeat.y = 3;
 
 // We can fix that by adding THREE.RepeatWrapping on wrapS and wrapT properties
-colorTexture.wrapS = THREE.RepeatWrapping;
-colorTexture.wrapT = THREE.RepeatWrapping;
+// colorTexture.wrapS = THREE.RepeatWrapping;
+// colorTexture.wrapT = THREE.RepeatWrapping;
 
-colorTexture.offset.x = 0.5;
-colorTexture.offset.y = 0.5;
+// colorTexture.offset.x = 0.5;
+// colorTexture.offset.y = 0.5;
 
 // rotating in 2d space (not Vector). At (0,0) UV coordinates
-colorTexture.rotation = Math.PI * 0.25;
+// colorTexture.rotation = Math.PI * 0.25;
 // Move pivot point from bottom-left to the center
-colorTexture.center.x = 0.5;
-colorTexture.center.y = 0.5;
+// colorTexture.center.x = 0.5;
+// colorTexture.center.y = 0.5;
+
+/**
+ * FILTERING and MIPMAPPING
+ * 
+ * - If you look at the cube's top face really close almost hidden, you'll see a blurry texture. This is good!
+ * - This is due to the filtering and the mipmapping
+ *
+ * MIP MAPPING - is a technique that consist of creating half a smaller version of a texture again  and again until we get a 1x1 texture.
+ * (All those texture variations are sent to the GPU, and the GPU will choose the most appropriate version of the texture.)
+ * 
+ * Two types of FILTER algorithm:
+ * 1. minification filter
+ * 2. magnification filter
+ * 
+ * MINIFICATION FILTER: (when texture is too big for the render)
+ * The `minification filter`(1) happens when the pixels of texture are smaller than the pixels of the render. In other words, the texture is too big for the surface, it covers.
+ * 
+ * You can change the minification filter of the texture using the minFilter property.
+ * 
+ * There are 6 possible values:
+    THREE.NearestFilter
+    THREE.LinearFilter
+    THREE.NearestMipmapNearestFilter
+    THREE.NearestMipmapLinearFilter
+    THREE.LinearMipmapNearestFilter
+    THREE.LinearMipmapLinearFilter
+  * The default is THREE.LinearMipmapLinearFilter.
+  *
+  * MAGNIFICATION FILTER: (When the texture is too small for the surface it covers)
+  * The `magnification filter`(2) works just like the minification filter, but when the pixels of the texture are bigger than the render's pixels. In other words, the texture too small for the surface it covers.
+  * This is good bcz if not too exaggerated it will blend and stretch the user may not notice.
+  * 
+  * !!!
+  * THREE.NearestFilter (Sharpness)
+  *   - is CHEAPER performance than the other ones and if the  result is fine with you just use it
+  * 
+ */
+
+// When using THREE.NearestFilter on `minFilter`, we don't need mipmaps since we are not generating bunch of 1x1 textures and sending it to the GPU.(performaces) Thus, deactivate the mipmaps:
+colorTexture.generateMipmaps = false;
+colorTexture.minFilter = THREE.NearestFilter;
+
+// colorTexture.magFilter = THREE.LinearFilter // Default
+colorTexture.magFilter = THREE.NearestFilter;
 
 /**
  * Base
