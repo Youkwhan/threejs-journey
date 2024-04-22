@@ -37,8 +37,37 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 /**
  * Object
  */
-// MeshBasicMaterial
-const material = new THREE.MeshBasicMaterial({ map: doorColorTexture });
+// MeshBasicMaterial properties (similar to other Mesh materials)
+// const material = new THREE.MeshBasicMaterial();
+// material.map = doorColorTexture // map property: Apply a texture on the surface of the geometry
+// material.color = new THREE.Color('#ff0000'); // color: will apply a uniform color on the surface of the geometry (MUST instantiate a Color class directly)
+// material.wireframe = true; // Show triangles that compose the geometry - line of  1px.
+// material.transparent = true;
+// material.opacity = 0.5; // The opacity controls the transparencey, Need both
+// material.alphaMap = doorAlphaTexture; // when white visible, when black transparent
+// material.side = THREE.DoubleSide; // Decides which side of the faces is visible.
+// THREE.FrontSide(default), THREE.BackSide, THREE.DoubleSide (Avoid performance resources)
+
+/**
+ *  MeshNormalMaterial
+ *
+ * "Normals" (the arrows) are information encoded in each vertex that contains the direction going outside of the face. The color will display the normal orientation relative to the camera
+ * Used for calculating light, illuminating the face or how the environment should reflect or refract on geometries surface.
+ * MeshNormalMaterial USEFUL to debug the normals. When light isn't spotted as it should. Or just use it the way it is.
+ * */
+// const material = new THREE.MeshNormalMaterial();
+// material.wireframe = true;
+// material.flatShading = true; //flat surface flat  faces
+
+/**
+ * MeshMatcapMaterial
+ *
+ * Looks great while remaining performant
+ * Needs a referencetexture that LOOKS like a SPHERE
+ *
+ * The material will  pick colorsfrom the texture according to the normal orientation relative to the camera
+ * */
+const material = new THREE.MeshMatcapMaterial();
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
