@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 /**
  * Debug
  */
@@ -139,8 +139,8 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  * support lights but with more realistic algorithm and better parameters like roughness and metalness
  */
 const material = new THREE.MeshStandardMaterial();
-material.metalness = 0.45;
-material.roughness = 0.65;
+material.metalness = 0.7;
+material.roughness = 0.2; //small rough is smooth so more reflection
 
 gui.add(material, 'metalness').min(0).max(1).step(0.0001);
 gui.add(material, 'roughness').min(0).max(1).step(0.0001);
@@ -161,15 +161,30 @@ scene.add(sphere, plane, torus);
 /**
  * Light
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 1); // (color, intensity)
-scene.add(ambientLight);
+// const ambientLight = new THREE.AmbientLight(0xffffff, 1); // (color, intensity)
+// scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 30);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+// const pointLight = new THREE.PointLight(0xffffff, 30);
+// pointLight.position.x = 2;
+// pointLight.position.y = 3;
+// pointLight.position.z = 4;
+// scene.add(pointLight);
 // scene.add(new THREE.AxesHelper());
+
+/**
+ * Environment map
+ *
+ * We can see the environment as our Lighting :o
+ */
+const rgbeLoader = new RGBELoader();
+// need callback
+rgbeLoader.load('./textures/environmentMap/2k.hdr', (environemntMap) => {
+  environemntMap.mapping = THREE.EquirectangularReflectionMapping;
+
+  scene.background = environemntMap;
+  scene.environment = environemntMap;
+});
+
 /**
  * Sizes
  */
