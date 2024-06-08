@@ -29,7 +29,7 @@ const doorRoughnessTexture = textureLoader.load(
   './textures/door/roughness.jpg'
 );
 const matcapTexture = textureLoader.load('./textures/matcaps/1.png');
-const gradientTexture = textureLoader.load('./textures/gradients/3.jpg');
+const gradientTexture = textureLoader.load('./textures/gradients/5.jpg');
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
@@ -87,8 +87,44 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  * MeshLambertMaterial
  *
  * material requies LIGHT!
+ *
+ * Supports the same properties as the MeshBasicMaterial but also some preperties related to light
+ *
+ * MeshLambertMaterial is the most performant material that uses lights, but hard to get realistic look for complex shapes
  */
-const material = new THREE.MeshLambertMaterial();
+// const material = new THREE.MeshLambertMaterial();
+
+/** MeshPhongMaterial
+ *
+ * Less performant than MeshLambertMaterial bcz access to more features
+ *
+ * not realistic look bcz its an arbitrary location, buy cool for other shapes
+ */
+// const material = new THREE.MeshPhongMaterial();
+// material.shininess = 100; // bigger the more shiny it looks
+// material.specular = new THREE.Color(0x1188ff);
+
+/** MeshToonMaterial
+ *
+ * maaterial implementing toon shading. (shell shading)
+ *
+ * used in many ds games, zelda phantom
+ *
+ * By  default, you only get a two-part coloration (one for the shadow and one for the light)
+ *
+ * To add more steps, you can use the gradientTexture jpg on the gradientMap property
+ *  - If you use a very small gradient texture jpg that is like 3x1 pixels and then stretch it the GPU will merge and blend them together losing our seperation of colors.
+ * -  minFilter/magFilter == minify/magnify and  combine to NearestFilter
+ *  - We can control how the GPU handles such texture thanks to minFilter and magFilter
+ *
+ * because the THREE.NearestFilter isn’t actually using any mipmap versions of the texture (the different sizes per pixels it generates), we can deactivate the generation of the mipmaps in order to free some memory by setting gradientTexture.generateMipmaps to false:
+ *
+ */
+const material = new THREE.MeshToonMaterial();
+gradientTexture.minFilter = THREE.NearestFilter;
+gradientTexture.magFilter = THREE.NearestFilter;
+gradientTexture.generateMipmaps = false;
+material.gradientMap = gradientTexture;
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
@@ -103,6 +139,18 @@ torus.position.x = 1.5;
 
 scene.add(sphere, plane, torus);
 
+/**
+ * Light
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 1); // (color, intensity)
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 30);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
+// scene.add(new THREE.AxesHelper());
 /**
  * Sizes
  */
