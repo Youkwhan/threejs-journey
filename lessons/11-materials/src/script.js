@@ -120,11 +120,21 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  * because the THREE.NearestFilter isn’t actually using any mipmap versions of the texture (the different sizes per pixels it generates), we can deactivate the generation of the mipmaps in order to free some memory by setting gradientTexture.generateMipmaps to false:
  *
  */
-const material = new THREE.MeshToonMaterial();
-gradientTexture.minFilter = THREE.NearestFilter;
-gradientTexture.magFilter = THREE.NearestFilter;
-gradientTexture.generateMipmaps = false;
-material.gradientMap = gradientTexture;
+// const material = new THREE.MeshToonMaterial();
+// gradientTexture.minFilter = THREE.NearestFilter;
+// gradientTexture.magFilter = THREE.NearestFilter;
+// gradientTexture.generateMipmaps = false;
+// material.gradientMap = gradientTexture;
+
+/** MeshStandardMaterial !important
+ *
+ * uses physcially based (physical object) rendering principles, isntead of guessing where to put the light
+ *
+ * support lights but with more realistic algorithm and better parameters like roughness and metalness
+ */
+const material = new THREE.MeshStandardMaterial();
+material.metalness = 0.45;
+material.roughness = 0.65;
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
