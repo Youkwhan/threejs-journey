@@ -66,8 +66,29 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  * Needs a referencetexture that LOOKS like a SPHERE
  *
  * The material will  pick colorsfrom the texture according to the normal orientation relative to the camera
+ *
+ * Problem:
+ * The meshes appear illuminated, but its an ilusion created by the texture
+ * Problem is the result is the same regardless of camera orientation we cannot update the light
  * */
-const material = new THREE.MeshMatcapMaterial();
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = matcapTexture;
+
+/**
+ * MeshDepthMaterial
+ *
+ * Color the geometry in white if it's close  to the camera's `near` value and in black if it's close to the `far` value.
+ *
+ * used for complex computations like shadows
+ */
+// const material = new THREE.MeshDepthMaterial();
+
+/**
+ * MeshLambertMaterial
+ *
+ * material requies LIGHT!
+ */
+const material = new THREE.MeshLambertMaterial();
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
