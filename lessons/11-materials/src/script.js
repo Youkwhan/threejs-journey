@@ -43,6 +43,9 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 /**
  * Object
  */
+
+//  MATERIALS CAN HAVE DRASTIC IMPACT ON PERFORMANCE, maybe use matcap
+
 // MeshBasicMaterial properties (similar to other Mesh materials)
 // const material = new THREE.MeshBasicMaterial();
 // material.map = doorColorTexture // map property: Apply a texture on the surface of the geometry
