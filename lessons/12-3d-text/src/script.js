@@ -16,13 +16,15 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 //Axis helper
-const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper();
+// scene.add(axesHelper);
 
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load('/textures/matcaps/5.png');
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
 
 /**
  * Fonts
@@ -30,7 +32,7 @@ const textureLoader = new THREE.TextureLoader();
 const fontLoader = new FontLoader();
 
 fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
-  const textGeometry = new TextGeometry("Youk's", {
+  const textGeometry = new TextGeometry('HamooD', {
     font: font,
     size: 0.5,
     depth: 0.2,
@@ -51,8 +53,8 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
   //   ); OR USE:
   textGeometry.center();
 
-  const textMaterial = new THREE.MeshBasicMaterial();
-  textMaterial.wireframe = true;
+  const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+  //   textMaterial.wireframe = true;
   const text = new THREE.Mesh(textGeometry, textMaterial);
   scene.add(text);
 });
