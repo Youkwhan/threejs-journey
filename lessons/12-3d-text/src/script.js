@@ -15,6 +15,10 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+//Axis helper
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
+
 /**
  * Textures
  */
@@ -37,6 +41,16 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     bevelOffset: 0,
     bevelSegments: 4,
   });
+
+  // bounding our object and using cords to center
+  //   textGeometry.computeBoundingBox();
+  //   textGeometry.translate(
+  //     -(textGeometry.boundingBox.max.x - 0.02) * 0.5,
+  //     -(textGeometry.boundingBox.max.y - 0.02) * 0.5,
+  //     -(textGeometry.boundingBox.max.z - 0.03) * 0.5
+  //   ); OR USE:
+  textGeometry.center();
+
   const textMaterial = new THREE.MeshBasicMaterial();
   textMaterial.wireframe = true;
   const text = new THREE.Mesh(textGeometry, textMaterial);
