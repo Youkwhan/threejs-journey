@@ -16,7 +16,17 @@ const scene = new THREE.Scene();
 
 /**
  * Lights
+ *
+ * ambientLight, omnidirectional lighting
+ *
+ * Good way to simulate light bouncing, which is very hard in irl. Thus we can use ambientLight to simulate light bouncing with a very dim light behind the object. To percieve light from one direction and dim on the other side.
+ *
  */
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
+
+gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
+// Equals
 
 /**
  * Objects
