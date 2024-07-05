@@ -35,6 +35,9 @@ scene.add(directionalLight);
 
 gui.add(directionalLight, 'intensity').min(0).max(3).step(0.001);
 
+// Similar to AmbientLight but with a different color from the sky and coming from the ground.
+const hemisphereLight = new THREE.HemisphereLight(0xff0000, 0x0000ff, 0.9);
+scene.add(hemisphereLight);
 // Equals
 
 /**
