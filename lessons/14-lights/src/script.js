@@ -44,6 +44,15 @@ const pointLight = new THREE.PointLight(0xff9000, 1.5, 10, 2);
 pointLight.position.set(1, -0.5, 1);
 scene.add(pointLight);
 
+// RectAreaLight works like the big rectrangle lights you can see on the photoshoot set
+// mix between directional light and a diffuse light
+// only work with MeshStandardMaterial and MeshPhysicalMaterial
+const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 6, 1, 1);
+rectAreaLight.position.set(-1.5, 0, 1.5);
+// lookAt() good way to orientate lights/scenes
+rectAreaLight.lookAt(new THREE.Vector3()); // after we move, now look at the center of the scene (0,0,0)
+scene.add(rectAreaLight);
+
 /**
  * Objects
  */
