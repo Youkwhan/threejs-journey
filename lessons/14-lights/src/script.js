@@ -53,6 +53,22 @@ rectAreaLight.position.set(-1.5, 0, 1.5);
 rectAreaLight.lookAt(new THREE.Vector3()); // after we move, now look at the center of the scene (0,0,0)
 scene.add(rectAreaLight);
 
+// SpotLight is like a flashlight.
+// It's a cone of light starting at a point and oriented in a direction
+const spotLight = new THREE.SpotLight(
+  0x78ff00,
+  4.5,
+  10,
+  Math.PI * 0.1,
+  0.25,
+  1
+);
+spotLight.position.set(0, 2, 3);
+scene.add(spotLight);
+
+spotLight.target.position.x - 0.75;
+scene.add(spotLight.target);
+
 /**
  * Objects
  */
