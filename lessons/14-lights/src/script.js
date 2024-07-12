@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
-
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 /**
  * Base
  */
@@ -28,6 +28,14 @@ const scene = new THREE.Scene();
  * The idea is to bake  the light into the texture.
  * This can  be  done in a 3D  software
  * The  drawback is that  we cannot move the light anymore  and we have to load huge textures.
+ *
+ * Helpers:
+ * To assist us with positioning the lights, we can use helpers,
+ * -  HemisphereLightHelper
+ * - DirectionalLightHelper
+ * - PointLightHelper
+ * - RectAreaLightHelper
+ * - SpotLightHelper
  */
 
 /*
@@ -83,6 +91,34 @@ scene.add(spotLight);
 
 spotLight.target.position.x - 0.75;
 scene.add(spotLight.target);
+
+// HELPERS
+const hemisphereLightHelper = new THREE.HemisphereLightHelper(
+  hemisphereLight,
+  0.2
+);
+scene.add(hemisphereLightHelper);
+
+const directionalLightHelper = new THREE.DirectionalLightHelper(
+  directionalLight,
+  0.2
+);
+scene.add(directionalLightHelper);
+
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+scene.add(pointLightHelper);
+
+// The SpotLightHelper has no size
+// We  need to call its update() method on the next frame after moving the target
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
+window.requestAnimationFrame(() => {
+  spotLightHelper.update();
+});
+
+// Not part of the THREE variable,  must import
+const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight);
+scene.add(rectAreaLightHelper);
 
 /**
  * Objects
