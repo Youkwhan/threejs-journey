@@ -24,6 +24,10 @@ const scene = new THREE.Scene();
  * Moderate cost:  DirectionalLight, PointLight
  * High cost: SpotLight, RectAreaLight
  *
+ * Baking:
+ * The idea is to bake  the light into the texture.
+ * This can  be  done in a 3D  software
+ * The  drawback is that  we cannot move the light anymore  and we have to load huge textures.
  */
 
 /*
