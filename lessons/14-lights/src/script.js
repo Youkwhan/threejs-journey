@@ -17,18 +17,23 @@ const scene = new THREE.Scene();
 /**
  * Lights
  *
+ * Lights can COST a lot when it comes to performances
+ * Try to add as few lights as possible and try to use the lights that cost less.
+ *
+ *
  * AmbientLight, omnidirectional lighting:
  * Good way to simulate light bouncing, which is very hard in irl. Thus we can use ambientLight in combination with directional light to simulate light bouncing
- *
- * DirectionalLight (sun rays) above + dim AmbientLight below creating the effect of light bouncing from the ground to behind the object.
- * (ambient below, directional above)
- *
  */
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
 gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
 
+/*
+ * DirectionalLight (sun rays) above + dim AmbientLight below creating the effect of light bouncing from the ground to behind the object.
+ * (ambient below, directional above)
+ *
+ */
 const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.9);
 directionalLight.position.set(1, 0.25, 0);
 scene.add(directionalLight);
