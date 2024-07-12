@@ -20,7 +20,13 @@ const scene = new THREE.Scene();
  * Lights can COST a lot when it comes to performances
  * Try to add as few lights as possible and try to use the lights that cost less.
  *
+ * Minimal cost: AmbientLight, HemisphereLight
+ * Moderate cost:  DirectionalLight, PointLight
+ * High cost: SpotLight, RectAreaLight
  *
+ */
+
+/*
  * AmbientLight, omnidirectional lighting:
  * Good way to simulate light bouncing, which is very hard in irl. Thus we can use ambientLight in combination with directional light to simulate light bouncing
  */
