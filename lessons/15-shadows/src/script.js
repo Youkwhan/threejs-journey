@@ -33,6 +33,32 @@ scene.add(directionalLight);
 
 directionalLight.castShadow = true;
 
+// Improve the render size of the shadowmap
+// keep in mind that you need a power of 2 value for the mipmapping
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
+// console.log(directionalLight.shadow.camera);
+
+// Avoid bugs and shadow glitches by giving near and far constraint for the shadowmap camera
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 6;
+
+// shadowmap render is to large, reduce the Amptitude to control how far on each side the camera can see
+directionalLight.shadow.camera.top = 2;
+directionalLight.shadow.camera.right = 2;
+directionalLight.shadow.camera.bottom = -2;
+directionalLight.shadow.camera.left = -2;
+
+// Blur
+// This technique doesn't use the proximity of the camera with the object, it's a general and cheap blur
+directionalLight.shadow.radius = 10;
+
+const directionalLightCameraHelper = new THREE.CameraHelper(
+  directionalLight.shadow.camera
+);
+directionalLightCameraHelper.visible = false;
+scene.add(directionalLightCameraHelper);
+
 /**
  * Shadows
  *
@@ -124,8 +150,22 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
 // enable shadow maps on the renderer
 renderer.shadowMap.enabled = true;
+
+/**
+ * Shadow map algorithm
+ * Different types of algorithms can be applied to shadow maps:
+ *
+ * THREE.BasicShadowMap: Very performant but lousy quality
+ * THREE.PCFShadowMap: Less performant but smoother edges
+ * THREE.PCFSoftShadowMap: Less performant but even softer edges
+ * THREE.VSMShadowMap: Less performant, more constraints, can have unexpected results
+ * To change it, update the renderer.shadowMap.type property. The default is THREE.PCFShadowMap but you can use THREE.PCFSoftShadowMap for better quality.
+ */
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// radius doesn't work with THREE.PCFShadowMap
 
 /**
  * Animate
