@@ -15,6 +15,28 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 /**
+ * Shadows
+ *
+ * With lights, we have the dark shadow in the  back of the objects called CORE SHADOW
+ * What we are missing are DROP SHADOWS
+ *
+ *
+ * LIFECYCLE:
+ * 1. When you do one render, Three.js will do a render for each light supporting shadows.
+ * 2. Those renders will simulate what the light sees as if it was a camera.
+ * 2.1. During these lights renders, a MeshDepthMaterial replaces all meshes material to calculate the depth.
+ * 3. The lights renders are then stored as textures and we call those SHADOW MAPS
+ * 3.1 They are then used on every materials supposed to receive shadows and projected on the geometry
+ *
+ * Only 3 types of lights support shadows
+ * - PointLight
+ * - DirectionalLight
+ * - SpotLight
+ *
+ * Mixing shadows doesn't look good  and there is not much to do about it.
+ */
+
+/**
  * Lights
  */
 // Ambient light
@@ -59,25 +81,23 @@ const directionalLightCameraHelper = new THREE.CameraHelper(
 directionalLightCameraHelper.visible = false;
 scene.add(directionalLightCameraHelper);
 
-/**
- * Shadows
- *
- * With lights, we have the dark shadow in the  back of the objects called CORE SHADOW
- * What we are missing are DROP SHADOWS
- *
- *
- * LIFECYCLE:
- * 1. When you do one render, Three.js will do a render for each light supporting shadows.
- * 2. Those renders will simulate what the light sees as if it was a camera.
- * 2.1. During these lights renders, a MeshDepthMaterial replaces all meshes material to calculate the depth.
- * 3. The lights renders are then stored as textures and we call those SHADOW MAPS
- * 3.1 They are then used on every materials supposed to receive shadows and projected on the geometry
- *
- * Only 3 types of lights support shadows
- * - PointLight
- * - DirectionalLight
- * - SpotLight
- */
+// SpotLight
+const spotLight = new THREE.SpotLight(0xffffff, 3.6, 10, Math.PI * 0.3);
+
+spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+spotLight.shadow.camera.fov = 30;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 6;
+
+spotLight.position.set(0, 2, 2);
+scene.add(spotLight);
+scene.add(spotLight.target); // adding an invisible target to update to
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+spotLightCameraHelper.visible = false;
+scene.add(spotLightCameraHelper);
 
 /**
  * Materials
