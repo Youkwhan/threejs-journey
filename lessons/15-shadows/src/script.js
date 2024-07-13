@@ -3,6 +3,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 
 /**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader();
+const backedShadow = textureLoader.load('/textures/bakedShadow.jpg');
+backedShadow.colorSpace = THREE.SRGBColorSpace;
+
+/**
  * Base
  */
 // Debug
@@ -34,6 +41,10 @@ const scene = new THREE.Scene();
  * - SpotLight
  *
  * Mixing shadows doesn't look good  and there is not much to do about it.
+ *
+ * Baked Shadows:
+ * We  integrate shadows in textures that we apply on materials
+ *
  */
 
 /**
@@ -131,7 +142,10 @@ gui.add(material, 'roughness').min(0).max(1).step(0.001);
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
 sphere.castShadow = true;
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
+const plane = new THREE.Mesh(
+  new THREE.PlaneGeometry(5, 5),
+  new THREE.MeshBasicMaterial({ map: backedShadow })
+);
 plane.rotation.x = -Math.PI * 0.5;
 plane.position.y = -0.5;
 plane.receiveShadow = true;
@@ -189,7 +203,7 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // enable shadow maps on the renderer
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = false;
 
 /**
  * Shadow map algorithm
