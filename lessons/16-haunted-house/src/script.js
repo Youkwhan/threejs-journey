@@ -36,7 +36,6 @@ scene.add(floor);
 // }
 
 /**
- * THREEJS
  * GROUP
  * grouping objects into object, i.e. rotating a house together
  * purpose is to make working with groups of objects syuntactically clearer
@@ -50,8 +49,50 @@ const walls = new THREE.Mesh(
   new THREE.BoxGeometry(4, 2.5, 4),
   new THREE.MeshStandardMaterial()
 );
-house.position.y = 2.5 / 2;
+walls.position.y = 2.5 / 2;
 house.add(walls);
+
+// Roof
+const roof = new THREE.Mesh(
+  new THREE.ConeGeometry(3.5, 1.5, 4),
+  new THREE.MeshStandardMaterial()
+);
+roof.position.y = 2.5 + 0.75;
+roof.rotation.y = Math.PI * 0.25;
+house.add(roof);
+
+// Door
+const door = new THREE.Mesh(
+  new THREE.PlaneGeometry(2.2, 2.2),
+  new THREE.MeshStandardMaterial()
+);
+door.position.z = 2 + 0.01;
+door.position.y = 1;
+house.add(door);
+
+// Bushes
+// Simple spheres, 4 bushes using 4 different Meshes, but all share the same unique geometry and unique material.
+const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
+const bushMaterial = new THREE.MeshStandardMaterial();
+
+const bush1 = new THREE.Mesh(bushGeometry, bushMaterial);
+// bush1.setScalar(0.5)
+bush1.scale.set(0.5, 0.5, 0.5);
+bush1.position.set(0.8, 0.2, 2.2);
+
+const bush2 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush2.scale.set(0.25, 0.25, 0.25);
+bush2.position.set(1.4, 0.1, 2.1);
+
+const bush3 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush3.scale.set(0.4, 0.4, 0.4);
+bush3.position.set(-0.8, 0.1, 2.2);
+
+const bush4 = new THREE.Mesh(bushGeometry, bushMaterial);
+bush4.scale.set(0.15, 0.15, 0.15);
+bush4.position.set(-1, 0.05, 2.6);
+
+house.add(bush1, bush2, bush3, bush4);
 
 /**
  * Lights
