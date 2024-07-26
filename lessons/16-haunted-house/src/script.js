@@ -121,6 +121,38 @@ bushNormalTexture.repeat.set(2, 1);
 bushColorTexture.wrapS = THREE.RepeatWrapping;
 bushARMTexture.wrapS = THREE.RepeatWrapping;
 bushNormalTexture.wrapS = THREE.RepeatWrapping;
+
+// Grave
+const graveColorTexture = textureLoader.load(
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.jpg'
+);
+const graveARMTexture = textureLoader.load(
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.jpg'
+);
+const graveNormalTexture = textureLoader.load(
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.jpg'
+);
+
+graveColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+graveColorTexture.repeat.set(0.3, 0.4);
+graveARMTexture.repeat.set(0.3, 0.4);
+graveNormalTexture.repeat.set(0.3, 0.4);
+// NO need to wrapS or wrapT when repeat value is less than 1
+
+// Door
+const doorColorTexture = textureLoader.load('./door/color.jpg');
+const doorAlphaTexture = textureLoader.load('./door/alpha.jpg');
+const doorAmbientOcclusionTexture = textureLoader.load(
+  './door/ambientOcclusion.jpg'
+);
+const doorHeightTexture = textureLoader.load('./door/height.jpg');
+const doorNormalTexture = textureLoader.load('./door/normal.jpg');
+const doorMetalnessTexture = textureLoader.load('./door/metalness.jpg');
+const doorRoughnessTexture = textureLoader.load('./door/roughness.jpg');
+
+doorColorTexture.colorSpace = THREE.SRGBColorSpace;
+
 /**
  * House
  */
@@ -206,8 +238,19 @@ house.add(roof);
 
 // Door
 const door = new THREE.Mesh(
-  new THREE.PlaneGeometry(2.2, 2.2),
-  new THREE.MeshStandardMaterial()
+  new THREE.PlaneGeometry(2.2, 2.2, 100, 100),
+  new THREE.MeshStandardMaterial({
+    map: doorColorTexture,
+    transparent: true,
+    alphaMap: doorAlphaTexture,
+    aoMap: doorAmbientOcclusionTexture,
+    displacementMap: doorHeightTexture,
+    displacementScale: 0.15,
+    displacementBias: -0.04,
+    normalMap: doorNormalTexture,
+    metalnessMap: doorMetalnessTexture,
+    roughnessMap: doorRoughnessTexture,
+  })
 );
 door.position.z = 2 + 0.01;
 door.position.y = 1;
@@ -251,7 +294,13 @@ house.add(bush1, bush2, bush3, bush4);
 
 // Graves
 const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
-const graveMaterial = new THREE.MeshStandardMaterial();
+const graveMaterial = new THREE.MeshStandardMaterial({
+  map: graveColorTexture,
+  aoMap: graveARMTexture,
+  roughnessMap: graveARMTexture,
+  metalnessMap: graveARMTexture,
+  normalMap: graveNormalTexture,
+});
 
 // Group
 const graves = new THREE.Group();
