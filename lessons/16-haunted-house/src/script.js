@@ -32,21 +32,46 @@ const scene = new THREE.Scene();
  * The white part will be opaque and the black part will be transparent. (fog effect).
  *
  */
+/**
+ * !! OPTIMIZATION
+ * The textures are too big and too heavy which is bad for loading but also for the GPU and cost for some hosting services.
+ *
+ * Check: devtools -> network tab -> disable cache, img, and the size is on the bottom.
+ *
+ * They take up more memory, but they also generate a small freeze on the CPU when they are being uploaded to the GPU
+ *
+ * We are going to resize the textures, but also compress them.
+ *
+ * !IOS - if the first frame takes too long ios will reload the page !?!?!? wtf lol. Android will wait
+ *
+ * SOL:
+ * Currently, we have JPGs, which is already a good start, but there's an even better format called WEBP!!!!!
+ * - Supported by all major browsers
+ * - Lossy compression (image will degrade)
+ * - Lossless compression (image won't degrade)
+ * - Supports transparency
+ *
+ * Compress Image Setting:
+ * size: 256, 512, 1024 (go small if you can, especially normal map)
+ * quality: 80'
+ *
+ * Download textures as PNG (lossless compression), then we compress them to WEBP or JPG
+ */
 const textureLoader = new THREE.TextureLoader();
 
 // Floor
-const floorAlphaTexture = textureLoader.load('./floor/alpha.jpg');
+const floorAlphaTexture = textureLoader.load('./floor/alpha.webp');
 const floorColorTexture = textureLoader.load(
-  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg'
+  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp'
 );
 const floorARMTexture = textureLoader.load(
-  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.jpg'
+  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp'
 );
 const floorNormalTexture = textureLoader.load(
-  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.jpg'
+  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.webp'
 );
 const floorDisplacementTexture = textureLoader.load(
-  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.jpg'
+  './floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.webp'
 );
 
 // Always do this with color textures
@@ -69,13 +94,13 @@ floorDisplacementTexture.wrapT = THREE.RepeatWrapping;
 
 // Wall
 const wallColorTexture = textureLoader.load(
-  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.jpg'
+  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.webp'
 );
 const wallARMTexture = textureLoader.load(
-  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.jpg'
+  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.webp'
 );
 const wallNormalTexture = textureLoader.load(
-  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.jpg'
+  './wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.webp'
 );
 
 // Always do this with color textures
@@ -83,13 +108,13 @@ wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 // Roof
 const roofColorTexture = textureLoader.load(
-  './roof/roof_slates_02_1k/roof_slates_02_diff_1k.jpg'
+  './roof/roof_slates_02_1k/roof_slates_02_diff_1k.webp'
 );
 const roofARMTexture = textureLoader.load(
-  './roof/roof_slates_02_1k/roof_slates_02_arm_1k.jpg'
+  './roof/roof_slates_02_1k/roof_slates_02_arm_1k.webp'
 );
 const roofNormalTexture = textureLoader.load(
-  './roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.jpg'
+  './roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.webp'
 );
 
 roofColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -104,13 +129,13 @@ roofNormalTexture.wrapS = THREE.RepeatWrapping;
 
 // Bush
 const bushColorTexture = textureLoader.load(
-  './bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.jpg'
+  './bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.webp'
 );
 const bushARMTexture = textureLoader.load(
-  './bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.jpg'
+  './bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.webp'
 );
 const bushNormalTexture = textureLoader.load(
-  './bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.jpg'
+  './bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.webp'
 );
 
 bushColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -125,13 +150,13 @@ bushNormalTexture.wrapS = THREE.RepeatWrapping;
 
 // Grave
 const graveColorTexture = textureLoader.load(
-  './grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.jpg'
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.webp'
 );
 const graveARMTexture = textureLoader.load(
-  './grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.jpg'
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.webp'
 );
 const graveNormalTexture = textureLoader.load(
-  './grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.jpg'
+  './grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.webp'
 );
 
 graveColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -142,15 +167,15 @@ graveNormalTexture.repeat.set(0.3, 0.4);
 // NO need to wrapS or wrapT when repeat value is less than 1
 
 // Door
-const doorColorTexture = textureLoader.load('./door/color.jpg');
-const doorAlphaTexture = textureLoader.load('./door/alpha.jpg');
+const doorColorTexture = textureLoader.load('./door/color.webp');
+const doorAlphaTexture = textureLoader.load('./door/alpha.webp');
 const doorAmbientOcclusionTexture = textureLoader.load(
-  './door/ambientOcclusion.jpg'
+  './door/ambientOcclusion.webp'
 );
-const doorHeightTexture = textureLoader.load('./door/height.jpg');
-const doorNormalTexture = textureLoader.load('./door/normal.jpg');
-const doorMetalnessTexture = textureLoader.load('./door/metalness.jpg');
-const doorRoughnessTexture = textureLoader.load('./door/roughness.jpg');
+const doorHeightTexture = textureLoader.load('./door/height.webp');
+const doorNormalTexture = textureLoader.load('./door/normal.webp');
+const doorMetalnessTexture = textureLoader.load('./door/metalness.webp');
+const doorRoughnessTexture = textureLoader.load('./door/roughness.webp');
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
