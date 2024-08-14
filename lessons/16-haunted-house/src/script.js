@@ -467,6 +467,13 @@ sky.material.uniforms['mieDirectionalG'].value = 0.95;
 sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95);
 
 /**
+ * Fog
+ */
+// scene.fog = new THREE.Fog('#ff0000', 1, 13); (color, near, far) at far it's opacity 100
+scene.fog = new THREE.FogExp2('#02343f', 0.1); // (color, density) how fast it becomes opaque more realistic
+// For the color, the best thing you could do is to chooose a color that merges well with the background.
+
+/**
  * Animate
  */
 const timer = new Timer();
